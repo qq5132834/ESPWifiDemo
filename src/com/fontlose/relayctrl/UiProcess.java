@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
  
 
+
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +20,7 @@ import android.media.SoundPool;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class UiProcess {
 	
@@ -76,7 +80,7 @@ public class UiProcess {
 		mct=context;
 		dataProcess=dProcess;
 		
-		  //载入音频流
+		  //杞藉叆闊抽娴�
 		hitOkSfx = snd.load(mct, R.raw.ping_short, 0);
  
 		bnRealyOn=(Button)mainLayout.findViewById(R.id.bnOn1);
@@ -246,6 +250,7 @@ public class UiProcess {
 			msg.what=DataProcess.RELAYOPT;
 			msg.arg1=relayId_l;
 			msg.arg2=operate_l;
+			Log.e("huangliao...", msg.toString());
 			hUiMsg.sendMessage(msg);
 		}
 	}
@@ -255,7 +260,7 @@ public class UiProcess {
 	private byte[] state_l=new byte[]{(byte)0xFF,(byte)0xff,(byte)0xFF,(byte)0xff}; 
 	
 	public void setRelayState(int state)
-	{//继电器1
+	{//缁х數鍣�1
 		byte sat=(byte)(state&0xff);
  		if(state_l[0]!=sat)
  		{  
@@ -294,7 +299,7 @@ public class UiProcess {
 	
 	
 	public void setRelayOnoff(TextView tv,ImageView im,byte state)
-	{//继电器1		 
+	{//缁х數鍣�1		 
 		if(state==0x1)
 		{
 			tv.setText(R.string.state0);
@@ -314,7 +319,7 @@ public class UiProcess {
 	
 	private EditText etRelay1,etRelay2,etRelay3,etRelay4;
 	 
-	public QPopupWindow createConfigWindow(){/*增加连接按钮*/
+	public QPopupWindow createConfigWindow(){/*澧炲姞杩炴帴鎸夐挳*/
 		LayoutInflater factory=LayoutInflater.from(mct);
 		LinearLayout lout=(LinearLayout)factory.inflate(R.layout.name,null);
  		QPopupWindow popupWindow = new QPopupWindow(lout,  LayoutParams.FILL_PARENT,  LayoutParams.WRAP_CONTENT,true);
@@ -414,7 +419,7 @@ public class UiProcess {
 	     public void loadIpPort()
 	     {
 	  	    SharedPreferences uiState   = mct.getSharedPreferences("system", mct.MODE_PRIVATE);
-	  	    etIp.setText(uiState.getString("ip","192.168.1.100" ));
+	  	    etIp.setText(uiState.getString("ip","192.168.4.1" ));
 	  	    etPort.setText(uiState.getString("port", "5000")); 
 	     }
 	

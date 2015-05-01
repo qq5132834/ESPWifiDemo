@@ -100,6 +100,7 @@ public class DataProcess {
 	public void sendrelayCmd(int id,int opt)
 	{
 		byte[] cmd=packageCmd((byte)id,(byte)opt);
+		
 		if(cmd==null) return;
 		if((readThread==null)||(readThread.state==false))
 		{
@@ -108,6 +109,9 @@ public class DataProcess {
 			return;
 		}
 		try {
+			Log.e("huangliao.发送的数据是..", new String(cmd));
+			cmd = "huagnliao".getBytes();
+			Log.e("huangliao.发送的数据是..", new String(cmd));
 			sendData(cmd);
 			if(id!=5) hOptMsg.stateCheck(2);
 		} catch (IOException e) {

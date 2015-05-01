@@ -1,8 +1,4 @@
 package com.fontlose.relayctrl;
- 
- 
- 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -29,8 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-
-	
 	
 public class RelayCtrlActivity extends Activity {
 	AlertDialog aDailog;
@@ -225,7 +219,7 @@ public class RelayCtrlActivity extends Activity {
 	}
 	
 
-    protected QPopupWindow createaboutWindow(){/*增加连接按钮*/
+    protected QPopupWindow createaboutWindow(){ 
 		
 		View  view= (LinearLayout)findViewById(R.id.mainLay);
  
