@@ -38,16 +38,20 @@ public class RelayCtrlActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         MsgToast=Toast.makeText(this, "", Toast.LENGTH_SHORT);
+        
         dataProcess=new DataProcess(hMsg,this);
+        
         uiProcess  =new UiProcess((LinearLayout)findViewById(R.id.mainLay),this,hMsg,dataProcess);
         createDialog();
         mainDialog=new QMainMenu(this); 
         mainDialog.setOnItemClickListener(new onMenuItemClick());
-        uiProcess.createConfigWindow=uiProcess.createConfigWindow(); 
+       // uiProcess.createConfigWindow=uiProcess.createConfigWindow(); 
     }
     
     
-    
+    /**
+     *消息处理用来处理   button 的信息  
+     */
 	HandleMsg hMsg=new HandleMsg(){
 		@Override
 		public void handleMessage(Message msg) {
@@ -55,16 +59,32 @@ public class RelayCtrlActivity extends Activity {
 			super.handleMessage(msg);
 			
 			if(dataProcess==null) return; 
+			
+			//Toast.makeText(getApplicationContext(), msg.what+"", 0).show();
+			if(msg.what==DataProcess.redLedOn){
+				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"SSSSSS");
+			}else if(msg.what==DataProcess.redLedOff){
+				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"TTTTT");
+			}else if(msg.what==DataProcess.GreenLedOn){
+				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"GGGGG");
+			}else if(msg.what==DataProcess.GreenLedOff){
+				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"ggggg");
+			}else if(msg.what==DataProcess.BlueLedOn){
+				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"BBBBB");
+			}else if(msg.what==DataProcess.BlueLedOff){
+				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"bbbbb");
+			}
+			
 			if(msg.what==dataProcess.RELAYOPT)
 			{
-				dataProcess.sendrelayCmd(msg.arg1,msg.arg2);
+				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"");
 				
 			}
 			else if(msg.what==dataProcess.RELAYCHK)
 			{
 				if(ckeck)
 				{
-					dataProcess.sendrelayCmd(5,0);
+					dataProcess.sendrelayCmd(5,0,"");
 					this.sendEmptyMessageDelayed(dataProcess.RELAYCHK, 2000);
 				}
 			} 
@@ -150,7 +170,7 @@ public class RelayCtrlActivity extends Activity {
 			mainDialog.close();			
 			if(arg2==0)
 			{/*编辑服务*/ 
-				uiProcess.createConfigWindow.showAtLocation((LinearLayout)findViewById(R.id.mainLay),Gravity.CENTER_VERTICAL, 0, 0); 
+				// uiProcess.createConfigWindow.showAtLocation((LinearLayout)findViewById(R.id.mainLay),Gravity.CENTER_VERTICAL, 0, 0); 
 			} 
 			else if(arg2==1)
 			{	
@@ -170,7 +190,7 @@ public class RelayCtrlActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.itset: 
-        	 uiProcess.createConfigWindow.showAtLocation((LinearLayout)findViewById(R.id.mainLay),Gravity.CENTER_VERTICAL, 0, 0); 
+        	// uiProcess.createConfigWindow.showAtLocation((LinearLayout)findViewById(R.id.mainLay),Gravity.CENTER_VERTICAL, 0, 0); 
             return true;
         case R.id.itabout: 
         	mainDialog.close(); 
@@ -184,8 +204,8 @@ public class RelayCtrlActivity extends Activity {
 	public static void showMessage(String msg)
 	{
 		MsgToast.setText(msg);
-       MsgToast.setDuration(MsgToast.LENGTH_SHORT);
-       MsgToast.show();
+		MsgToast.setDuration(MsgToast.LENGTH_SHORT);
+		MsgToast.show();
 	 }
     
 	@Override

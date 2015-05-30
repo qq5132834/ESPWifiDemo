@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 
 
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
@@ -34,27 +36,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class UiProcess {
-	
-	
-   public static byte MSGOPTON  =2;
-   public static byte MSGOPTOFF =1;
-   public static byte MSGOPTNONE=0;
-    
-   public static byte MSGOPTRELAll=0;
-   public static byte MSGOPTREL1=1;
-   public static byte MSGOPTREL2=2;
-   public static byte MSGOPTREL3=3;
-   public static byte MSGOPTREL4=4;
+ 
    
    HandleMsg hUiMsg=null;
    Context mct=null;
    DataProcess dataProcess=null;
     
 	private ImageButton bnConnect;
-	private EditText etIp,etPort;
+	private EditText etIp;
 	private TextView tv1,tv2,tv3,tv4,tvn1,tvn2,tvn3,tvn4;
 	private ImageView im1,im2,im3,im4;
-	QPopupWindow createConfigWindow;
+	//QPopupWindow createConfigWindow;
 	
 	public String nameRel1,nameRel2,nameRel3,nameRel4;
 	
@@ -80,29 +72,130 @@ public class UiProcess {
 		mct=context;
 		dataProcess=dProcess;
 		
-		  //杞藉叆闊抽娴�
 		hitOkSfx = snd.load(mct, R.raw.ping_short, 0);
  
 		bnRealyOn=(Button)mainLayout.findViewById(R.id.bnOn1);
-		bnRealyOn.setOnClickListener(new onRelayButtonClick(MSGOPTREL1,MSGOPTON));
+		bnRealyOn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(mct, "redLedOn", 0).show();
+				
+				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
+				if(hUiMsg==null) return;
+				
+				Message msg=new Message();
+				msg.what=DataProcess.redLedOn; //开始红色LED
+				hUiMsg.sendMessage(msg);
+				
+			}
+		});
+		
 		bnRelayOff=(Button)mainLayout.findViewById(R.id.bnOff1);
-		bnRelayOff.setOnClickListener(new onRelayButtonClick(MSGOPTREL1,MSGOPTOFF));
+		bnRelayOff.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(mct, "redLedOff", 0).show();
+				
+				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
+				if(hUiMsg==null) return;
+				
+				Message msg=new Message();
+				msg.what=DataProcess.redLedOff; //开始红色LED
+				hUiMsg.sendMessage(msg);
+			}
+		});
 		 
 		bnRealyOn=(Button)mainLayout.findViewById(R.id.bnOn2);
-		bnRealyOn.setOnClickListener(new onRelayButtonClick(MSGOPTREL2,MSGOPTON));
+		bnRealyOn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(mct, "GreenLedOn", 0).show();
+				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
+				if(hUiMsg==null) return;
+				
+				Message msg=new Message();
+				msg.what=DataProcess.GreenLedOn; //开始红色LED
+				hUiMsg.sendMessage(msg);
+			}
+		});
 		bnRelayOff=(Button)mainLayout.findViewById(R.id.bnOff2);
-		bnRelayOff.setOnClickListener(new onRelayButtonClick(MSGOPTREL2,MSGOPTOFF));
+		bnRelayOff.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(mct, "GreenLedOff", 0).show();
+				
+				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
+				if(hUiMsg==null) return;
+				
+				Message msg=new Message();
+				msg.what=DataProcess.GreenLedOff; //开始红色LED
+				hUiMsg.sendMessage(msg);
+			}
+		});
 		 
 		bnRealyOn=(Button)mainLayout.findViewById(R.id.bnOn3);
-		bnRealyOn.setOnClickListener(new onRelayButtonClick(MSGOPTREL3,MSGOPTON));
+		bnRealyOn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(mct, "bnOn3", 0).show();
+				
+				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
+				if(hUiMsg==null) return;
+				
+				Message msg=new Message();
+				msg.what=DataProcess.BlueLedOn; //开始红色LED
+				hUiMsg.sendMessage(msg);
+				
+			}
+		});
 		bnRelayOff=(Button)mainLayout.findViewById(R.id.bnOff3);
-		bnRelayOff.setOnClickListener(new onRelayButtonClick(MSGOPTREL3,MSGOPTOFF));
+		bnRelayOff.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(mct, "bnOff3", 0).show();
+				
+				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
+				if(hUiMsg==null) return;
+				
+				Message msg=new Message();
+				msg.what=DataProcess.BlueLedOff; //开始红色LED
+				hUiMsg.sendMessage(msg);
+				
+			}
+		});
 	 
 		bnRealyOn=(Button)mainLayout.findViewById(R.id.bnOn4);
-		bnRealyOn.setOnClickListener(new onRelayButtonClick(MSGOPTREL4,MSGOPTON));
+		bnRealyOn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(mct, "bnOn4", 0).show();
+			}
+		});
+ 
 		bnRelayOff=(Button)mainLayout.findViewById(R.id.bnOff4);
-		bnRelayOff.setOnClickListener(new onRelayButtonClick(MSGOPTREL4,MSGOPTOFF));
-
+		bnRelayOff.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(mct, "bnOff4", 0).show();
+			}
+		});
+	 
 		
 		 tv1=(TextView)mainLayout.findViewById(R.id.tv1);
 		 tv2=(TextView)mainLayout.findViewById(R.id.tv2);
@@ -126,15 +219,11 @@ public class UiProcess {
 		 setRelayState(0);
 		
 		 etIp  =(EditText)mainLayout.findViewById(R.id.etIp);
-		 etPort=(EditText)mainLayout.findViewById(R.id.etPort);
+		 
 		 loadIpPort();
 		
 		
 		 bnConnect=(ImageButton)mainLayout.findViewById(R.id.bnConnect);
-		
-		
-		
-		
 		 bnConnect.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -144,39 +233,37 @@ public class UiProcess {
 				 {
 					 
 					String sip    =etIp.getText().toString().trim();
-					String sport  =etPort.getText().toString().trim();
 					 
 					 
+					Toast.makeText(mct, sip+":"+333, 0).show();
 					 
 					Pattern pa=Pattern.compile("^(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])$");
 					Matcher ma=pa.matcher(sip);
-		          if(ma.matches()==false)
-		           {  
-		        	  RelayCtrlActivity.showMessage(mct.getString(R.string.msg6));
-		        	  return;
-		           } 
+					if(ma.matches()==false)
+					{  
+						RelayCtrlActivity.showMessage(mct.getString(R.string.msg6));
+						return;
+					} 
+					 
+					int port=0;
+					try {
+							port=Integer.parseInt("333");
+					} catch (Exception e) {
+						RelayCtrlActivity.showMessage(mct.getString(R.string.msg7));
+						return ;
+					}
 					 
 					 
-					 int port=0;
-						try {
-							port=Integer.parseInt(sport);
-						} catch (Exception e) {
-							 RelayCtrlActivity.showMessage(mct.getString(R.string.msg7));
-							return ;
-						}
-						
-					 
-					 
-					 if(dataProcess.startConn(sip, port))
+					 if(dataProcess.startConn(sip, 333)) //建立服务器连接
 					 {
 						 RelayCtrlActivity.showMessage(mct.getString(R.string.msg2));
 						 bnConnect.setImageResource( R.drawable.true1);
-
 						 hUiMsg.stateCheck(1);
 						 setEditEnable(false);
 					 }
 					 else
 					 {
+						 //提示超时连接 
 						 RelayCtrlActivity.showMessage(mct.getString(R.string.msg1));
 					 }
 				 }
@@ -204,16 +291,16 @@ public class UiProcess {
 	public void setEditEnable(boolean en)
 	{
 		etIp.setEnabled(en); 		
-		etPort.setEnabled(en); 
+	 
 		if(en==false) 
 		{
 			etIp.setInputType(InputType.TYPE_NULL);
-			etPort.setInputType(InputType.TYPE_NULL);
+			 
 		}
 		else   
 		{
 			etIp.setInputType(InputType.TYPE_CLASS_TEXT);
-			etPort.setInputType(InputType.TYPE_CLASS_TEXT);
+			 
 		}
 	}
 	
@@ -222,32 +309,7 @@ public class UiProcess {
 		return etIp.isEnabled(); 
 	}	
 	
-	class onRelayButtonClick implements View.OnClickListener
-	{
-		private int operate_l,relayId_l;
-		
-		public onRelayButtonClick(byte relayId,byte operate)
-		{
-			relayId_l=relayId;
-			operate_l=operate;
-		}
-		Button bnActivity,bn;
-		 
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
-			if(hUiMsg==null) return;
-			
-			Message msg=new Message();
-			msg.what=DataProcess.RELAYOPT;
-			msg.arg1=relayId_l;
-			msg.arg2=operate_l;
-			Log.e("huangliao...", msg.toString());
-			hUiMsg.sendMessage(msg);
-		}
-	}
-	
+ 
 	
 	
 	private byte[] state_l=new byte[]{(byte)0xFF,(byte)0xff,(byte)0xFF,(byte)0xff}; 
@@ -311,8 +373,9 @@ public class UiProcess {
 	}
 	
 	private EditText etRelay1,etRelay2,etRelay3,etRelay4;
-	 
-	public QPopupWindow createConfigWindow(){/*澧炲姞杩炴帴鎸夐挳*/
+	
+	
+	 public QPopupWindow createConfigWindow(){/*澧炲姞杩炴帴鎸夐挳*/
 		LayoutInflater factory=LayoutInflater.from(mct);
 		LinearLayout lout=(LinearLayout)factory.inflate(R.layout.name,null);
  		QPopupWindow popupWindow = new QPopupWindow(lout,  LayoutParams.FILL_PARENT,  LayoutParams.WRAP_CONTENT,true);
@@ -337,7 +400,7 @@ public class UiProcess {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//soundPlay();
-				createConfigWindow.dismiss();
+				//createConfigWindow.dismiss();
 				nameRel1=etRelay1.getText().toString();
 				nameRel2=etRelay2.getText().toString();
 				nameRel3=etRelay3.getText().toString();
@@ -356,7 +419,7 @@ public class UiProcess {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//soundPlay();
-				createConfigWindow.dismiss();
+				//createConfigWindow.dismiss();
 			}
 		});
   		
@@ -369,7 +432,7 @@ public class UiProcess {
 		
 		return popupWindow; 
 	}
-	
+	  
 	
 	    public void loadConfigure()
 	     {
@@ -405,7 +468,7 @@ public class UiProcess {
 	  	    SharedPreferences uiState   = mct.getSharedPreferences("system", mct.MODE_PRIVATE);
 	  		Editor et=uiState.edit();
 	  		et.putString("ip",etIp.getText().toString());
-	  		et.putString("port",etPort.getText().toString()); 
+	  		 
 	  		et.commit();
 	     } 
 	 
@@ -413,7 +476,7 @@ public class UiProcess {
 	     {
 	  	    SharedPreferences uiState   = mct.getSharedPreferences("system", mct.MODE_PRIVATE);
 	  	    etIp.setText(uiState.getString("ip","192.168.4.1" ));
-	  	    etPort.setText(uiState.getString("port", "5000")); 
+	  	   
 	     }
 	
 	

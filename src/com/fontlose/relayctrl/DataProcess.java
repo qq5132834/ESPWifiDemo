@@ -9,7 +9,12 @@ import java.net.SocketAddress;
 import android.content.Context;
 import android.util.Log;
 
+/**
+ * TCP/IP连接和通信类
+ * */
 public class DataProcess {
+	
+	//不同的消息信息 
 	
 	public static byte RELAYOPT=1;
 	public static byte RELAYCHK=2;
@@ -18,12 +23,24 @@ public class DataProcess {
 	
 	public static byte CLOSETCP=5;
 	public static byte MAINMENU=6;
-	     
+	
+	/**
+	 * 开启红色LED
+	 * */
+	public static int redLedOn = 11;
+	/**
+	 * 关闭红色LED
+	 * */
+	public static int redLedOff = 12;  
+	public static int GreenLedOn = 13;
+	public static int GreenLedOff = 14;
+	public static int BlueLedOn = 15;
+	public static int BlueLedOff = 16;
+	
    
-   
-   protected Socket socket            ;//Socket 数据  
+	protected Socket socket            ;//Socket 数据  
          //目标端口  
-   public boolean State;
+	public boolean State;
  	private byte[] sData=new byte[1024];//接收缓存
  	ReadThread readThread=null;
  	HandleMsg hOptMsg=null;
@@ -54,7 +71,9 @@ public class DataProcess {
 		return false;
 	}
 
- 
+	/**
+	 * 建立TCP/IP连接
+	 * */
 	public boolean startConn( String  ip,int port) { 
 		if(socket.isClosed()) socket=new Socket();
 		SocketAddress remoteAddr=new InetSocketAddress(ip,port);
@@ -96,8 +115,10 @@ public class DataProcess {
 		return cmd;
 	}
 	
-	
-	public void sendrelayCmd(int id,int opt)
+	/**
+	 * 发送数据
+	 * */
+	public void sendrelayCmd(int id,int opt,String data)
 	{
 		byte[] cmd=packageCmd((byte)id,(byte)opt);
 		
@@ -109,10 +130,10 @@ public class DataProcess {
 			return;
 		}
 		try {
-			Log.e("huangliao.发送的数据是..", new String(cmd));
-			cmd = "TTTTT".getBytes();
-			Log.e("huangliao.发送的数据是..", new String(cmd));
-			sendData(cmd);
+			if(!data.equals("")){
+				Log.e("发送的数据是:", data);
+				sendData(data.getBytes());
+			}
 			if(id!=5) hOptMsg.stateCheck(2);
 		} catch (IOException e) {
 			RelayCtrlActivity.showMessage(mct.getString(R.string.msg4)); 
