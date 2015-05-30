@@ -104,13 +104,6 @@ public class UiProcess {
 		bnRelayOff.setOnClickListener(new onRelayButtonClick(MSGOPTREL4,MSGOPTOFF));
 
 		
-		bnRealyOn=(Button)mainLayout.findViewById(R.id.bnAllOn);
-		bnRealyOn.setOnClickListener(new onRelayButtonClick(MSGOPTRELAll,MSGOPTON));
-		bnRelayOff=(Button)mainLayout.findViewById(R.id.bnAllOff);
-		bnRelayOff.setOnClickListener(new onRelayButtonClick(MSGOPTRELAll,MSGOPTOFF));
-
-		
-		
 		 tv1=(TextView)mainLayout.findViewById(R.id.tv1);
 		 tv2=(TextView)mainLayout.findViewById(R.id.tv2);
 		 tv3=(TextView)mainLayout.findViewById(R.id.tv3);

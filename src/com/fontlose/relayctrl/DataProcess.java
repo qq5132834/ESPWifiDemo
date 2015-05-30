@@ -110,15 +110,12 @@ public class DataProcess {
 		}
 		try {
 			Log.e("huangliao.发送的数据是..", new String(cmd));
-			cmd = "huagnliao".getBytes();
+			cmd = "TTTTT".getBytes();
 			Log.e("huangliao.发送的数据是..", new String(cmd));
 			sendData(cmd);
 			if(id!=5) hOptMsg.stateCheck(2);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			RelayCtrlActivity.showMessage(mct.getString(R.string.msg4)); 
-		//	hOptMsg.sendEmptyMessage(DataProcess.CLOSETCP);
 		}
 	}
 }

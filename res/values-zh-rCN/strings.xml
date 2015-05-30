@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources> 
-    <string name="app_name">网络继电器</string>
-    <string name="relOn" >吸合</string>
+    <string name="app_name">智能灯光控制</string>
+    <string name="relOn" >开启</string>
     <string name="relOff">断开</string>
     
     <string name="relAllOn" >吸合所有</string>
@@ -10,14 +10,14 @@
     
     <string name="ipset">IP端口设置：</string> 
     
-    <string name="state0">断开</string> 
-    <string name="state1">吸合</string>
+    <string name="state0">关闭</string> 
+    <string name="state1">开启</string>
     <string name="state2">未知</string> 
     
-    <string name="relay1">继电器1</string> 
-    <string name="relay2">继电器2</string> 
-    <string name="relay3">继电器3</string> 
-    <string name="relay4">继电器4</string>  
+    <string name="relay1">红灯</string> 
+    <string name="relay2">绿灯</string> 
+    <string name="relay3">蓝灯</string> 
+    <string name="relay4">传感器</string>  
     
     
     <string name="msg1">连接设备超时</string> 
@@ -37,13 +37,13 @@
     <string name="lbAbout">关于</string>  
     <string name="lbSet">设置</string>    
     <string name="setSuccess">设置成功</string>  
-   <string name="lbSave">保存</string>  
-<string name="lbnamerel">继电器命名</string> 
-	<string name="lblog1">"    济南有人物联网技术有限公司专业专注于物联网之联网产品领域，提供形式多样的串口转网络模块及成型DTU产品，UART/RS232/RS485/RS422转网络/WIFI/GPRS/3G等。"</string>
-	<string name="lblog2">"    本程序由有人科技开发，供客户免费测试使用，请勿直接用于商业用途。"</string>
-	<string name="lbnet">http://www.usr.cn</string>
-	<string name="lbtel">053155507297</string>
-	<string name="lbmail">Email:tec@usr.cn</string>
+    <string name="lbSave">保存</string>  
+	<string name="lbnamerel">灯光命名</string> 
+	<string name="lblog1">"深大电子发烧工作室提供私人订制的电子产品"</string>
+	<string name="lblog2">"本程序由深大电子发烧工作室开发，供客户免费测试使用，请勿直接用于商业用途。"</string>
+	<string name="lbnet">http://shop106914608.taobao.com/</string>
+	<string name="lbtel">0756-85223141</string>
+	<string name="lbmail">Email:513283439@qq.com</string>
 	    
     
 </resources>

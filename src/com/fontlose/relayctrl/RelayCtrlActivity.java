@@ -229,13 +229,13 @@ public class RelayCtrlActivity extends Activity {
  		QPopupWindow popupWindow = new QPopupWindow(lout,  LayoutParams.FILL_PARENT,  LayoutParams.WRAP_CONTENT,true);
  
  		TextView tv3=(TextView)lout.findViewById(R.id.textView3);
- 		tv3.setText(Html.fromHtml("<u>mailto:tec@usr.cn</u>"));
+ 		tv3.setText(Html.fromHtml("<u>mailto:513283439@qq.com</u>"));
  		//tv3.setTextColor(Color.rgb(red, green, blue));
  		tv3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Uri uri = Uri.parse("mailto:tec@usr.cn");  
+				Uri uri = Uri.parse("mailto:513283439@qq.com");  
 				Intent it = new Intent(Intent.ACTION_SENDTO, uri);
 				try {
 					RelayCtrlActivity.this.startActivity(it); 
