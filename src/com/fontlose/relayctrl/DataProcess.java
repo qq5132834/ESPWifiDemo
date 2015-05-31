@@ -5,6 +5,8 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.util.Log;
@@ -24,6 +26,8 @@ public class DataProcess {
 	public static byte CLOSETCP=5;
 	public static byte MAINMENU=6;
 	
+	
+	public static int LigthController = 10;
 	/**
 	 * 开启红色LED
 	 * */
@@ -37,6 +41,13 @@ public class DataProcess {
 	public static int BlueLedOn = 15;
 	public static int BlueLedOff = 16;
 	
+	public static int ConnectServerOK = 17;
+	public static int ConnectServerFailed = 18;
+	
+	
+	
+	public static int startLoading = 19;
+	public static int endLoading = 20;
    
 	protected Socket socket            ;//Socket 数据  
          //目标端口  
@@ -75,12 +86,24 @@ public class DataProcess {
 	 * 建立TCP/IP连接
 	 * */
 	public boolean startConn( String  ip,int port) { 
+		 Pattern pa=Pattern.compile("^(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])$");
+		 Matcher ma=pa.matcher(ip);
+		 if(ma.matches()==false)
+		 {  
+			 return false;
+		 } 
 		if(socket.isClosed()) socket=new Socket();
 		SocketAddress remoteAddr=new InetSocketAddress(ip,port);
 		try {
 			socket.connect(remoteAddr, 2000);
 		} catch (IOException e) {
 			socket=new Socket();
+			try {
+				socket.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			Log.v("tcpserver", e.getMessage());
 			return false;
 		}

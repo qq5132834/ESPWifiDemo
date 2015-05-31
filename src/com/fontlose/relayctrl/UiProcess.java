@@ -11,6 +11,15 @@ import java.util.regex.Pattern;
 
 
 
+
+
+
+
+
+
+
+
+import BaseInfo.SendInfo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -32,21 +41,73 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class UiProcess {
  
-   
-   HandleMsg hUiMsg=null;
+	/**
+	 * 消息机制
+	 * */
+	HandleMsg myHand = new HandleMsg(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			if(dataProcess==null) return;
+			
+			Log.e("消息类型", msg.what+"");
+			
+			//连接服务器
+			if(msg.what==DataProcess.ConnectServerOK){//显示连接成功
+				String ip = (String) msg.obj;
+				etIp.setText(ip);
+				Toast.makeText(mct, "深圳大学 黄聊连接成功"+ip, 0).show();
+				bnConnect.setImageResource( R.drawable.true1);
+				myHand.stateCheck(1);
+				setEditEnable(false);
+			}else if(msg.what==DataProcess.ConnectServerFailed){//显示连接失败
+				String ip = (String) msg.obj;
+				etIp.setText(ip);
+			}
+			
+			//灯光控制
+			if(msg.what==DataProcess.LigthController){
+				String str = SendInfo.getSendInfo();
+				if(str!=null){
+					Log.e("发送的数据:", str);
+					dataProcess.sendrelayCmd(msg.arg1,msg.arg2,str);
+				}else{
+					Toast.makeText(mct, "系统错误", 0).show();
+				}
+			}
+			
+			//加载进度条
+			if(msg.what==DataProcess.startLoading){
+				dialog = ProgressDialog.show(mct, null, "正在匹配连接装置，请稍候...", true, false);  
+			}else if(msg.what==DataProcess.endLoading){
+				if(dialog!=null){
+					dialog.dismiss();  
+				}
+			}
+		}
+	 
+	};
+	
+	private ProgressDialog dialog;  
+	
+	HandleMsg hUiMsg=null;
    Context mct=null;
    DataProcess dataProcess=null;
-    
+   
 	private ImageButton bnConnect;
 	private EditText etIp;
 	private TextView tv1,tv2,tv3,tv4,tvn1,tvn2,tvn3,tvn4;
 	private ImageView im1,im2,im3,im4;
-	//QPopupWindow createConfigWindow;
+	private SeekBar seekBar = null;
 	
 	public String nameRel1,nameRel2,nameRel3,nameRel4;
 	
@@ -73,6 +134,32 @@ public class UiProcess {
 		dataProcess=dProcess;
 		
 		hitOkSfx = snd.load(mct, R.raw.ping_short, 0);
+		
+		/**
+		 * seekBar滑动条变化
+		 * */
+		this.seekBar = (SeekBar) mainLayout.findViewById(R.id.seekBar);
+		this.seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				Log.e("滑动条的值", progress+"");
+				SendInfo.lightSize=progress;
+				
+				/*Message msg=new Message();
+				msg.what=DataProcess.LigthController; //开始红色LED
+				myHand.sendMessage(msg);*/
+				
+				
+			}
+		});
  
 		bnRealyOn=(Button)mainLayout.findViewById(R.id.bnOn1);
 		bnRealyOn.setOnClickListener(new OnClickListener() {
@@ -85,9 +172,13 @@ public class UiProcess {
 				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
 				if(hUiMsg==null) return;
 				
+				SendInfo.lightColor="R";
+				
 				Message msg=new Message();
-				msg.what=DataProcess.redLedOn; //开始红色LED
-				hUiMsg.sendMessage(msg);
+				msg.what=DataProcess.LigthController; //开始红色LED
+				myHand.sendMessage(msg);
+				
+				
 				
 			}
 		});
@@ -103,9 +194,14 @@ public class UiProcess {
 				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
 				if(hUiMsg==null) return;
 				
+				SendInfo.lightColor="r";
+				
 				Message msg=new Message();
-				msg.what=DataProcess.redLedOff; //开始红色LED
-				hUiMsg.sendMessage(msg);
+				msg.what=DataProcess.LigthController; //开始红色LED
+				myHand.sendMessage(msg);
+				
+				
+				
 			}
 		});
 		 
@@ -119,9 +215,14 @@ public class UiProcess {
 				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
 				if(hUiMsg==null) return;
 				
+				SendInfo.lightColor="G";
+				
 				Message msg=new Message();
-				msg.what=DataProcess.GreenLedOn; //开始红色LED
-				hUiMsg.sendMessage(msg);
+				msg.what=DataProcess.LigthController; //开始红色LED
+				myHand.sendMessage(msg);
+				
+				
+				
 			}
 		});
 		bnRelayOff=(Button)mainLayout.findViewById(R.id.bnOff2);
@@ -135,9 +236,14 @@ public class UiProcess {
 				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
 				if(hUiMsg==null) return;
 				
+				SendInfo.lightColor="g";
+				
 				Message msg=new Message();
-				msg.what=DataProcess.GreenLedOff; //开始红色LED
-				hUiMsg.sendMessage(msg);
+				msg.what=DataProcess.LigthController; //开始红色LED
+				myHand.sendMessage(msg);
+				
+				
+				
 			}
 		});
 		 
@@ -152,9 +258,14 @@ public class UiProcess {
 				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
 				if(hUiMsg==null) return;
 				
+				
+				SendInfo.lightColor="B";
+				
 				Message msg=new Message();
-				msg.what=DataProcess.BlueLedOn; //开始红色LED
-				hUiMsg.sendMessage(msg);
+				msg.what=DataProcess.LigthController; //开始红色LED
+				myHand.sendMessage(msg);
+				
+				
 				
 			}
 		});
@@ -169,9 +280,13 @@ public class UiProcess {
 				snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
 				if(hUiMsg==null) return;
 				
+				SendInfo.lightColor="b";
+				
 				Message msg=new Message();
-				msg.what=DataProcess.BlueLedOff; //开始红色LED
-				hUiMsg.sendMessage(msg);
+				msg.what=DataProcess.LigthController; //开始红色LED
+				myHand.sendMessage(msg);
+				
+				
 				
 			}
 		});
@@ -196,6 +311,8 @@ public class UiProcess {
 			}
 		});
 	 
+		
+		
 		
 		 tv1=(TextView)mainLayout.findViewById(R.id.tv1);
 		 tv2=(TextView)mainLayout.findViewById(R.id.tv2);
@@ -229,46 +346,77 @@ public class UiProcess {
 			public void onClick(View v) {
 				 snd.play(hitOkSfx, (float)0.5, (float)0.5, 0, 0, 1); 
 				// TODO Auto-generated method stub
-				 if(isEditEnable())
-				 {
+				 if(isEditEnable()){
+				
 					 
-					String sip    =etIp.getText().toString().trim();
-					 
-					 
-					Toast.makeText(mct, sip+":"+333, 0).show();
-					 
-					Pattern pa=Pattern.compile("^(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])$");
-					Matcher ma=pa.matcher(sip);
-					if(ma.matches()==false)
-					{  
-						RelayCtrlActivity.showMessage(mct.getString(R.string.msg6));
-						return;
-					} 
-					 
-					int port=0;
-					try {
-							port=Integer.parseInt("333");
-					} catch (Exception e) {
-						RelayCtrlActivity.showMessage(mct.getString(R.string.msg7));
-						return ;
-					}
-					 
-					 
-					 if(dataProcess.startConn(sip, 333)) //建立服务器连接
-					 {
-						 RelayCtrlActivity.showMessage(mct.getString(R.string.msg2));
-						 bnConnect.setImageResource( R.drawable.true1);
-						 hUiMsg.stateCheck(1);
-						 setEditEnable(false);
+					 String myIP=etIp.getText().toString().trim();
+					 if(dataProcess.startConn(myIP, 333)){
+						 
+						 Log.e("默认IP地址成功连接：", myIP);
+						 Message msg=new Message();
+						 msg.what=DataProcess.ConnectServerOK; //成功连接
+						 msg.obj = myIP;
+						 myHand.sendMessage(msg);
+						 
+					 }else{
+						 
+						 /**
+						  * 开启一个线程来探测服务器IP地址
+						  * */
+						 new Thread(){
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								super.run();
+								 
+								Message msg0=new Message();
+								msg0.what=DataProcess.startLoading; //开启进度条
+								myHand.sendMessage(msg0);
+								 
+								boolean st2 = false;
+								for(int i=0;i<3;i++){
+									 for(int j=100;j<111;j++){
+										 String sip = "192.168."+i+"."+j;
+										 Log.e("尝试IP地址：", sip);
+										 boolean st = dataProcess.startConn(sip, 333);
+										 if(st){
+											 Log.e("装置IP地址为：", sip);
+											 st2 = true;
+											 Message msg=new Message();
+											 msg.what=DataProcess.ConnectServerOK; //成功连接
+											 msg.obj = sip;
+											 myHand.sendMessage(msg);
+
+											 Message msg1=new Message();
+											 msg1.what=DataProcess.endLoading; //开启进度条
+											 myHand.sendMessage(msg1);
+											 
+											 break;
+										 }else{
+											 Message msg=new Message();
+											 msg.what=DataProcess.ConnectServerFailed; //失败连接
+											 msg.obj = sip;
+											 myHand.sendMessage(msg);
+										 }
+									 }
+									 if(st2){
+										 break;
+									 }
+									 Message msg1=new Message();
+									 msg1.what=DataProcess.endLoading; //开启进度条
+									 myHand.sendMessage(msg1);
+								 }
+							}
+							 
+						 }.start();
+						 
+						 
+						 
 					 }
-					 else
-					 {
-						 //提示超时连接 
-						 RelayCtrlActivity.showMessage(mct.getString(R.string.msg1));
-					 }
-				 }
-				 else
-				 { 
+					 
+					
+				 }else{ 
 					 stopConn();
 				 }
 			}
@@ -375,63 +523,7 @@ public class UiProcess {
 	private EditText etRelay1,etRelay2,etRelay3,etRelay4;
 	
 	
-	 public QPopupWindow createConfigWindow(){/*澧炲姞杩炴帴鎸夐挳*/
-		LayoutInflater factory=LayoutInflater.from(mct);
-		LinearLayout lout=(LinearLayout)factory.inflate(R.layout.name,null);
- 		QPopupWindow popupWindow = new QPopupWindow(lout,  LayoutParams.FILL_PARENT,  LayoutParams.WRAP_CONTENT,true);
  
-
-		etRelay1=(EditText)lout.findViewById(R.id.etRelay1);
-		etRelay2=(EditText)lout.findViewById(R.id.etRelay2);
-		etRelay3=(EditText)lout.findViewById(R.id.etRelay3);
-		etRelay4=(EditText)lout.findViewById(R.id.etRelay4);
-		  	
-		etRelay1.setText(nameRel1);
-		etRelay2.setText(nameRel2);
-		etRelay3.setText(nameRel3);
-		etRelay4.setText(nameRel4);
-		
-		
-		
-  		Button bnClk=(Button)lout.findViewById(R.id.bnSet);
-  		bnClk.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				//soundPlay();
-				//createConfigWindow.dismiss();
-				nameRel1=etRelay1.getText().toString();
-				nameRel2=etRelay2.getText().toString();
-				nameRel3=etRelay3.getText().toString();
-				nameRel4=etRelay4.getText().toString();
-				saveConfigure();
-				updateName();
-				RelayCtrlActivity.showMessage(mct.getString(R.string.setSuccess));
-			}
-		});
-  		
-  		
-  		bnClk=(Button)lout.findViewById(R.id.bnCancel);
-  		bnClk.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				//soundPlay();
-				//createConfigWindow.dismiss();
-			}
-		});
-  		
-		
- 		popupWindow.setOutsideTouchable(true);		
-		popupWindow.setTouchable(true); 
-		popupWindow.setBackgroundDrawable(new BitmapDrawable());
-		popupWindow.setAnimationStyle(R.style.PopupAnimation);
-		popupWindow.update(); 
-		
-		return popupWindow; 
-	}
 	  
 	
 	    public void loadConfigure()

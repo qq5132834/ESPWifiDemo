@@ -59,21 +59,7 @@ public class RelayCtrlActivity extends Activity {
 			super.handleMessage(msg);
 			
 			if(dataProcess==null) return; 
-			
-			//Toast.makeText(getApplicationContext(), msg.what+"", 0).show();
-			if(msg.what==DataProcess.redLedOn){
-				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"SSSSSS");
-			}else if(msg.what==DataProcess.redLedOff){
-				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"TTTTT");
-			}else if(msg.what==DataProcess.GreenLedOn){
-				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"GGGGG");
-			}else if(msg.what==DataProcess.GreenLedOff){
-				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"ggggg");
-			}else if(msg.what==DataProcess.BlueLedOn){
-				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"BBBBB");
-			}else if(msg.what==DataProcess.BlueLedOff){
-				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"bbbbb");
-			}
+			 
 			
 			if(msg.what==dataProcess.RELAYOPT)
 			{
@@ -169,8 +155,9 @@ public class RelayCtrlActivity extends Activity {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
 			mainDialog.close();			
 			if(arg2==0)
-			{/*编辑服务*/ 
-				// uiProcess.createConfigWindow.showAtLocation((LinearLayout)findViewById(R.id.mainLay),Gravity.CENTER_VERTICAL, 0, 0); 
+			{/*编辑服务*/
+				Toast.makeText(getApplicationContext(), "测试", 0).show();
+				 // uiProcess.createConfigWindow.showAtLocation((LinearLayout)findViewById(R.id.mainLay),Gravity.CENTER_VERTICAL, 0, 0); 
 			} 
 			else if(arg2==1)
 			{	
@@ -250,7 +237,6 @@ public class RelayCtrlActivity extends Activity {
  
  		TextView tv3=(TextView)lout.findViewById(R.id.textView3);
  		tv3.setText(Html.fromHtml("<u>mailto:513283439@qq.com</u>"));
- 		//tv3.setTextColor(Color.rgb(red, green, blue));
  		tv3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

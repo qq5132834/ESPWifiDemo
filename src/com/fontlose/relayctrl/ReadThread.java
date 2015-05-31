@@ -5,7 +5,9 @@ import java.net.Socket;
 
 import android.os.Message;
 import android.util.Log; 
-
+/**
+ * 接受服务器段发送回来的数据值 
+ * */
 public class ReadThread extends Thread { 
 	boolean state;
 	HandleMsg hOptMsg;
@@ -35,7 +37,7 @@ public class ReadThread extends Thread {
 				{
 					//RelayCtrlActivity.showMessage(sData.toString());
 					unpackageCmd(sData,rlRead);
-					
+					//Log.e("接受到的数据是：", new String(sData));
 				}
 				else 
 				{
