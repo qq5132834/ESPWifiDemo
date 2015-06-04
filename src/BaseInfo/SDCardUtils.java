@@ -24,20 +24,25 @@ public class SDCardUtils {
 	 * 文件中另取一行写入数据
 	 * */
 	public boolean writeFile(String ip){
-		boolean st = false;
+		boolean st = true;
 		try {
 			createFile();
 			List<String> list = this.readFile();
+			if(list.contains(ip)){
+				return st;
+			}
 			if(list.size()>5){
 				this.delFile();
 			}
+			this.createFile();
 			ip = ip + "\r\n";
 			FileOutputStream fs = new FileOutputStream(fileName,true);
 			fs.write(ip.getBytes());
 			fs.close();
-			st = true;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+			st = false;
 		}
 		return st;
 	}
