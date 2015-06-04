@@ -53,7 +53,7 @@
 			        	android:textColor="#FFFFFFFF"
 			        	android:layout_width="wrap_content"
 			        	android:layout_height="wrap_content"
-			        	android:text="光纤强弱调节" />
+			        	android:text="光线强弱调节" />
 		     	    <SeekBar  android:id="@+id/seekBar"
        		    		android:layout_width="fill_parent"
        		    		android:layout_height="wrap_content"

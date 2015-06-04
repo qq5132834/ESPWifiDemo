@@ -42,7 +42,7 @@ public class ReadThread extends Thread {
 				else 
 				{
 			    	state=false;
-			    	hOptMsg.sendEmptyMessage(DataProcess.CLOSETCP);
+			    	//hOptMsg.sendEmptyMessage(DataProcess.CLOSETCP);
 					break;
  				}
 			}

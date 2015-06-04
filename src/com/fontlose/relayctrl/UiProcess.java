@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
 
 
 
+
+import BaseInfo.SDCardUtils;
 import BaseInfo.SendInfo;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -153,11 +155,6 @@ public class UiProcess {
 				Log.e("滑动条的值", progress+"");
 				SendInfo.lightSize=progress;
 				
-				/*Message msg=new Message();
-				msg.what=DataProcess.LigthController; //开始红色LED
-				myHand.sendMessage(msg);*/
-				
-				
 			}
 		});
  
@@ -291,23 +288,44 @@ public class UiProcess {
 			}
 		});
 	 
+		/**
+		 * 开启人体传感器
+		 * */
 		bnRealyOn=(Button)mainLayout.findViewById(R.id.bnOn4);
 		bnRealyOn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(mct, "bnOn4", 0).show();
+				//Toast.makeText(mct, "bnOn4", 0).show();
+				
+				SendInfo.sensorState="S";
+				Log.e("操作", "开启人体传感器");
+				Message msg=new Message();
+				msg.what=DataProcess.LigthController; //开始红色LED
+				myHand.sendMessage(msg);
+				
 			}
 		});
- 
+		/**
+		 * 关闭人体传感器
+		 * */
 		bnRelayOff=(Button)mainLayout.findViewById(R.id.bnOff4);
 		bnRelayOff.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(mct, "bnOff4", 0).show();
+				//Toast.makeText(mct, "bnOff4", 0).show();
+				SendInfo.sensorState="s";
+				Log.e("操作", "关闭人体传感器");
+				Message msg=new Message();
+				msg.what=DataProcess.LigthController; //开始红色LED
+				myHand.sendMessage(msg);
+				
+				SDCardUtils sd = new SDCardUtils();
+				 
+				
 			}
 		});
 	 
