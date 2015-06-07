@@ -8,16 +8,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Environment;
 import android.util.Log;
 
 
 public class SDCardUtils {
 	 
-	private String path = "/smartLed/";
-	private String fileName = path+"smartLed.txt";
+	private String path = "abc/";
+	private String fileName = "smartLed.txt";
 	
 	public void SDCardUtils(){ 
 		createFile();
+		Log.e("SDCardUtils", fileName);
 	}
 	
 	/**
@@ -28,6 +30,7 @@ public class SDCardUtils {
 		try {
 			createFile();
 			List<String> list = this.readFile();
+			Log.e("写入文件", ip);
 			if(list.contains(ip)){
 				return st;
 			}
@@ -53,8 +56,13 @@ public class SDCardUtils {
 	public List<String> readFile(){
 		List<String> list = new ArrayList<String>();
 		try {
+			if(new File(fileName).exists()){
+				Log.e("文件中获取到的IP地址为：", "yes");
+			}else{
+				Log.e("文件中获取到的IP地址为：", "no");
+			}
 			FileReader fr;
-			fr = new FileReader(path+fileName);
+			fr = new FileReader("../"+fileName);
 			BufferedReader br=new BufferedReader(fr);
 	        String line="";
 	        while ((line=br.readLine())!=null) {

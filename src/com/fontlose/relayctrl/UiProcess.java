@@ -1,28 +1,15 @@
 package com.fontlose.relayctrl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
  
 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-import BaseInfo.SDCardUtils;
 import BaseInfo.SendInfo;
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -31,6 +18,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,7 +55,8 @@ public class UiProcess {
 			if(msg.what==DataProcess.ConnectServerOK){//显示连接成功
 				String ip = (String) msg.obj;
 				etIp.setText(ip);
-				Toast.makeText(mct, "深圳大学 黄聊连接成功"+ip, 0).show();
+				 
+				Toast.makeText(mct, "连接成功"+ip, 0).show();
 				bnConnect.setImageResource( R.drawable.true1);
 				myHand.stateCheck(1);
 				setEditEnable(false);
@@ -98,6 +87,9 @@ public class UiProcess {
 		}
 	 
 	};
+	
+  
+	
 	
 	private ProgressDialog dialog;  
 	
@@ -137,6 +129,7 @@ public class UiProcess {
 		
 		hitOkSfx = snd.load(mct, R.raw.ping_short, 0);
 		
+ 
 		/**
 		 * seekBar滑动条变化
 		 * */
@@ -304,7 +297,7 @@ public class UiProcess {
 				Message msg=new Message();
 				msg.what=DataProcess.LigthController; //开始红色LED
 				myHand.sendMessage(msg);
-				
+				 
 			}
 		});
 		/**
@@ -323,9 +316,10 @@ public class UiProcess {
 				msg.what=DataProcess.LigthController; //开始红色LED
 				myHand.sendMessage(msg);
 				
-				SDCardUtils sd = new SDCardUtils();
+				//List<String> list = new SDCardUtils().readFile();
+				//Log.e("默aaa：", list.toString());
 				 
-				
+				 
 			}
 		});
 	 
@@ -378,6 +372,8 @@ public class UiProcess {
 						 
 					 }else{
 						 
+				 
+						 
 						 /**
 						  * 开启一个线程来探测服务器IP地址
 						  * */
@@ -393,8 +389,8 @@ public class UiProcess {
 								myHand.sendMessage(msg0);
 								 
 								boolean st2 = false;
-								for(int i=0;i<3;i++){
-									 for(int j=100;j<111;j++){
+								for(int i=0;i<2;i++){
+									 for(int j=255;j>0;j--){
 										 String sip = "192.168."+i+"."+j;
 										 Log.e("尝试IP地址：", sip);
 										 boolean st = dataProcess.startConn(sip, 333);

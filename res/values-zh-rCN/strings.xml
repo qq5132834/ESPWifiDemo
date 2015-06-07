@@ -12,7 +12,7 @@
     
     <string name="state0">关闭</string> 
     <string name="state1">开启</string>
-    <string name="state2">未知</string> 
+    <string name="state2"></string> 
     
     <string name="relay1">红灯</string> 
     <string name="relay2">绿灯</string> 
