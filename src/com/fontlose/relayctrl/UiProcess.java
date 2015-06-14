@@ -372,11 +372,11 @@ public class UiProcess {
 						 
 					 }else{
 						 
-				 
-						 
+						 Toast.makeText(mct, "连接失败，请重新连接", 0).show();
+						 etIp.setText("192.168.0.222");
 						 /**
 						  * 开启一个线程来探测服务器IP地址
-						  * */
+						  
 						 new Thread(){
 
 							@Override
@@ -424,7 +424,7 @@ public class UiProcess {
 							}
 							 
 						 }.start();
-						 
+						 * */
 						 
 						 
 					 }
@@ -581,7 +581,7 @@ public class UiProcess {
 	     public void loadIpPort()
 	     {
 	  	    SharedPreferences uiState   = mct.getSharedPreferences("system", mct.MODE_PRIVATE);
-	  	    etIp.setText(uiState.getString("ip","192.168.4.1" ));
+	  	    //etIp.setText(uiState.getString("ip","192.168.4.1" ));
 	  	   
 	     }
 	
