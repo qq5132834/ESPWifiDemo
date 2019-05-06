@@ -2,349 +2,158 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    
     android:orientation="vertical" >
 
     <LinearLayout 
         android:id="@+id/mainLay"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/bg2"
         android:orientation="vertical"  >
         <LinearLayout 
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-		     <LinearLayout 
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content" 
-		            android:layout_weight="0.8"
-		            android:orientation="vertical" >
-			    <TextView 
-			        android:textColor="#FFFFFFFF"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:text="@string/ipset" />
+		    
+            <LinearLayout 
+		             android:layout_height="wrap_content"
+		             android:layout_width="fill_parent"
+		             android:orientation="horizontal" >
+		              <Button 
+		                    	   android:id="@+id/LinkESP"
+					                android:layout_width="fill_parent"
+					                android:layout_height="wrap_content"
+					                android:layout_weight="3"
+					                android:text="LinkESP"
+		                    />
+		    		<TextView android:layout_width="fill_parent"
+		    		    	android:layout_height="wrap_content"
+		    		    	 android:layout_weight="1"
+		    		    	 android:id="@+id/showData" 
+		    		    	 android:text="showData"
+		    		    />
+		    		
+		    </LinearLayout>
+		    
+             <LinearLayout 
+		             android:layout_height="wrap_content"
+		             android:layout_width="fill_parent"
+		             android:orientation="horizontal" >
+		    		   
+                      <EditText 
+                          		android:id="@+id/APssid"
+                          		android:layout_width="fill_parent"
+                          		android:layout_height="wrap_content"
+                          		android:layout_weight="3"
+                          		android:text="604"
+                          />
+                      <EditText 
+                          		android:id="@+id/APpwd"
+                          		android:layout_width="fill_parent"
+                          		android:layout_height="wrap_content"
+                          		android:layout_weight="3"
+                          		android:text="A13322980216"
+                          />
+                      
+		                <Button
+					                android:id="@+id/APConnectButton"
+					                android:layout_width="fill_parent"
+					                android:layout_height="wrap_content"
+					                android:layout_weight="3"
+					                android:text="连路由器"
+					                 />
+		    		</LinearLayout>
+		    		
+             <LinearLayout 
+		             android:layout_height="wrap_content"
+		             android:layout_width="fill_parent"
+		             android:orientation="horizontal" >
+		    		   
+                      <EditText 
+                          		android:id="@+id/P2Paddress"
+                          		android:layout_width="fill_parent"
+                          		android:layout_height="wrap_content"
+                          		android:layout_weight="3"
+                          		android:text="183.2.169.127"
+                          />
+                      <EditText 
+                          		android:id="@+id/P2Pport"
+                          		android:layout_width="fill_parent"
+                          		android:layout_height="wrap_content"
+                          		android:layout_weight="3"
+                          		android:text="8090"
+                          />
+                      
+		                <Button
+					                android:id="@+id/P2PConnectButton"
+					                android:layout_width="fill_parent"
+					                android:layout_height="wrap_content"
+					                android:layout_weight="3"
+					                android:text="连P2P"
+					                 />
+		    		</LinearLayout>
+		    
+            <LinearLayout 
+		             android:layout_height="wrap_content"
+		             android:layout_width="fill_parent"
+		             android:orientation="horizontal" >
+		                
+		                <Button 
+		                    	   android:id="@+id/ST3"
+					                android:layout_width="fill_parent"
+					                android:layout_height="wrap_content"
+					                android:layout_weight="1"
+					                android:text="ST3"
+		                    />
+		                <Button 
+		                    	   android:id="@+id/ToP2P"
+					                android:layout_width="fill_parent"
+					                android:layout_height="wrap_content"
+					                android:layout_weight="1"
+					                android:text="ToP2P"
+		                    />
+		    		</LinearLayout>
+            
+ 
 		         <LinearLayout 
 		             android:layout_height="wrap_content"
 		             android:layout_width="fill_parent"
 		             android:orientation="horizontal" >
-		                   <EditText
-				                android:id="@+id/etIp" 
-				                android:background="@drawable/layoutform"
-				                android:layout_weight="4"
-				                android:text="192.168.0.222"
-				                android:layout_height="fill_parent"
-				                android:layout_width="wrap_content" />
-				            <ImageButton
-				                android:id="@+id/bnConnect"
-				                android:layout_width="wrap_content"
-				                android:layout_height="wrap_content"
-				                android:layout_weight="1"
-				                android:background="@drawable/buttonform2"
-				                android:src="@drawable/false0" />
-				        </LinearLayout>
-		       </LinearLayout>
-		       
-		     	<LinearLayout android:layout_width="fill_parent"
-                			android:layout_height="wrap_content"
-                			android:orientation="vertical">
-		         	<TextView 
-			        	android:textColor="#FFFFFFFF"
-			        	android:layout_width="wrap_content"
-			        	android:layout_height="wrap_content"
-			        	android:text="光线强弱调节" />
-		     	    <SeekBar  android:id="@+id/seekBar"
-       		    		android:layout_width="fill_parent"
-       		    		android:layout_height="wrap_content"
-       		    		android:max="250"
-       		    		android:progress="125"
-       		    	/>
-		     	</LinearLayout>
-  				
-  				
-            <LinearLayout 
-                android:layout_width="fill_parent"
-                android:layout_height="80dp"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:id="@+id/im1"
-                    android:layout_width="83dp"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/off" />
-
-                <LinearLayout 
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" >
-
-	                <LinearLayout 
-	                    android:layout_width="fill_parent"
-	                    android:layout_height="wrap_content" 
-	                    android:orientation="horizontal" > 
-	                   <TextView
-	                       android:id="@+id/tvname1"
-	                       android:layout_marginRight="10px"
-	                       android:layout_width="wrap_content"
-	                       android:layout_height="wrap_content"
-	                       android:text="Medium Text"
-	                       android:textColor="#FFFFFFFF" />
-	
-	                   <TextView
-	                       android:id="@+id/tv1"  
-	                       android:textColor="#FFFFFFFF"
-	                       android:layout_width="wrap_content"
-	                       android:layout_height="wrap_content"
-	                       android:layout_gravity="center_horizontal"
-	                       android:text="Medium Text" />
-                    </LinearLayout>
-
-                    
-                    
-                    
-
-                    <LinearLayout 
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="horizontal" > 
-                        <Button
-                            android:id="@+id/bnOn1"
-                            android:background="@drawable/buttonform"
-                            android:layout_width="80px"
-                            android:layout_height="fill_parent"
-                            android:layout_marginBottom="3px"
-                            android:layout_marginLeft="3px"
-                            android:layout_marginRight="6px"
-                            android:layout_marginTop="3px"
-                            android:layout_weight="1"
-                            android:text="@string/relOn" />
-
-                        <Button
-                            android:id="@+id/bnOff1"
-                            android:background="@drawable/buttonform"
-                            android:layout_width="80px"
-                            android:layout_height="fill_parent"
-                            android:layout_marginBottom="3px"
-                            android:layout_marginLeft="3px"
-                            android:layout_marginRight="6px"
-                            android:layout_marginTop="3px"
-                            android:layout_weight="1"
-                            android:text="@string/relOff" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout 
-                android:layout_width="fill_parent"
-                android:layout_height="80dp" 
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:id="@+id/im2"
-                    android:layout_width="83dp"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/off" />
-
-                <LinearLayout 
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" >
-
-	                <LinearLayout 
-	                    android:layout_width="fill_parent"
-	                    android:layout_height="wrap_content" 
-	                    android:orientation="horizontal" > 
-	                   <TextView
-	                       android:id="@+id/tvname2" android:layout_marginRight="10px"
-	                       android:layout_width="wrap_content"
-	                       android:layout_height="wrap_content"
-	                       android:text="Medium Text"
-	                       android:textColor="#FFFFFFFF" />
-	
-	                   <TextView
-	                       android:id="@+id/tv2"  
-	                       android:textColor="#FFFFFFFF"
-	                       android:layout_width="wrap_content"
-	                       android:layout_height="wrap_content"
-	                       android:layout_gravity="center_horizontal"
-	                       android:text="Medium Text" />
-                    </LinearLayout>
-
-                    <LinearLayout 
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="horizontal" >
-
-                        <Button
-                            android:id="@+id/bnOn2"
-                            android:background="@drawable/buttonform"
-                            android:layout_width="80px"
-                            android:layout_height="fill_parent"
-                            android:layout_marginBottom="3px"
-                            android:layout_marginLeft="3px"
-                            android:layout_marginRight="6px"
-                            android:layout_marginTop="3px"
-                            android:layout_weight="1"
-                            android:text="@string/relOn" />
-
-                        <Button
-                            android:id="@+id/bnOff2"
-                            android:background="@drawable/buttonform"
-                            android:layout_width="80px"
-                            android:layout_height="fill_parent"
-                            android:layout_marginBottom="3px"
-                            android:layout_marginLeft="3px"
-                            android:layout_marginRight="6px"
-                            android:layout_marginTop="3px"
-                            android:layout_weight="1"
-                            android:text="@string/relOff" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout 
-                android:layout_width="fill_parent"
-                android:layout_height="80dp" 
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:id="@+id/im3"
-                    android:layout_width="83dp"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/off" />
-
-                <LinearLayout 
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" >
-
-	                <LinearLayout 
-	                    android:layout_width="fill_parent"
-	                    android:layout_height="wrap_content" 
-	                    android:orientation="horizontal" > 
-	                   <TextView
-	                       android:id="@+id/tvname3" android:layout_marginRight="10px"
-	                       android:layout_width="wrap_content"
-	                       android:layout_height="wrap_content"
-	                       android:text="Medium Text"
-	                       android:textColor="#FFFFFFFF" />
-	
-	                   <TextView
-	                       android:id="@+id/tv3"  
-	                       android:textColor="#FFFFFFFF"
-	                       android:layout_width="wrap_content"
-	                       android:layout_height="wrap_content"
-	                       android:layout_gravity="center_horizontal"
-	                       android:text="Medium Text" />
-                    </LinearLayout>
-
-                    <LinearLayout 
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="horizontal" >
-
-                        <Button
-                            android:id="@+id/bnOn3"
-                            android:background="@drawable/buttonform"
-                            android:layout_width="80px"
-                            android:layout_height="fill_parent"
-                            android:layout_marginBottom="3px"
-                            android:layout_marginLeft="3px"
-                            android:layout_marginRight="6px"
-                            android:layout_marginTop="3px"
-                            android:layout_weight="1"
-                            android:text="@string/relOn" />
-
-                        <Button
-                            android:id="@+id/bnOff3"
-                            android:background="@drawable/buttonform"
-                            android:layout_width="80px"
-                            android:layout_height="fill_parent"
-                            android:layout_marginBottom="3px"
-                            android:layout_marginLeft="3px"
-                            android:layout_marginRight="6px"
-                            android:layout_marginTop="3px"
-                            android:layout_weight="1"
-                            android:text="@string/relOff" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout 
-                android:layout_width="fill_parent"
-                android:layout_height="80dp"  
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-                <ImageView
-                    android:id="@+id/im4"
-                    android:layout_width="83dp"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/off" />
-                <LinearLayout 
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" >
-                    
-                    
-	                <LinearLayout 
-	                    android:layout_width="fill_parent"
-	                    android:layout_height="wrap_content" 
-	                    android:orientation="horizontal" > 
-	                   <TextView
-	                       android:id="@+id/tvname4" android:layout_marginRight="10px"
-	                       android:layout_width="wrap_content"
-	                       android:layout_height="wrap_content"
-	                       android:text="Medium Text"
-	                       android:textColor="#FFFFFFFF" />
-	
-	                   <TextView
-	                       android:id="@+id/tv4"  
-	                       android:textColor="#FFFFFFFF"
-	                       android:layout_width="wrap_content"
-	                       android:layout_height="wrap_content"
-	                       android:layout_gravity="center_horizontal"
-	                       android:text="Medium Text" />
-                    </LinearLayout> 
-                    
-                    
-                    <LinearLayout 
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="horizontal" >
-                        <Button
-                            android:id="@+id/bnOn4"
-                            android:background="@drawable/buttonform" 
-                            android:layout_width="80px"
-                            android:layout_height="fill_parent"
-                            android:layout_marginBottom="3px"
-                            android:layout_marginLeft="3px"
-                            android:layout_marginRight="6px"
-                            android:layout_marginTop="3px"
-                            android:layout_weight="1"
-                            android:text="@string/relOn" />
-
-                        <Button
-                            android:id="@+id/bnOff4"
-                            android:background="@drawable/buttonform"
-                            android:layout_width="80px"
-                            android:layout_height="fill_parent"
-                            android:layout_marginBottom="3px"
-                            android:layout_marginLeft="3px"
-                            android:layout_marginRight="6px"
-                            android:layout_marginTop="3px"
-                            android:layout_weight="1"
-                            android:text="@string/relOff" />
-                    </LinearLayout>
+		    		<Button android:layout_width="fill_parent"
+		    		    	android:layout_height="wrap_content"
+		    		    	 android:id="@+id/goButton"
+		    		    	android:text="前进"
+		    		    />
+		    </LinearLayout>
+		    <LinearLayout 
+		             android:layout_height="wrap_content"
+		             android:layout_width="fill_parent"
+		             android:orientation="horizontal" >
+		    		<Button android:layout_width="fill_parent"
+		    		    	android:layout_height="wrap_content"
+		    		    	android:layout_weight="1"
+		    		    	android:id="@+id/leftButton"
+		    		    	android:text="左转"
+		    		    />
+		    		<Button android:layout_width="fill_parent"
+		    		    	android:layout_height="wrap_content"
+		    		    	android:layout_weight="1"
+		    		    	android:id="@+id/rightButton"
+		    		    	android:text="右转"
+		    		    />
+		    </LinearLayout>
+		    <LinearLayout 
+		             android:layout_height="wrap_content"
+		             android:layout_width="fill_parent"
+		             android:orientation="horizontal" >
+		    		<Button android:layout_width="fill_parent"
+		    		    	android:layout_height="wrap_content"
+		    		    	android:id="@+id/backButton"
+		    		    	android:text="后退"
+		    		    />
+		    </LinearLayout>
+					
+                     
                 </LinearLayout>
             </LinearLayout>
        		
-             
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+ </LinearLayout>

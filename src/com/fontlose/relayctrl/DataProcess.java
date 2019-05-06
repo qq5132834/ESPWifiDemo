@@ -148,9 +148,9 @@ public class DataProcess {
 		if(cmd==null) return;
 		if((readThread==null)||(readThread.state==false))
 		{
-			RelayCtrlActivity.showMessage(mct.getString(R.string.msg5)); 
-			hOptMsg.stateCheck(0);
-			return;
+//			RelayCtrlActivity.showMessage(mct.getString(R.string.msg5)); 
+//			hOptMsg.stateCheck(0);
+//			return;
 		}
 		try {
 			if(!data.equals("")){
@@ -159,7 +159,7 @@ public class DataProcess {
 			}
 			if(id!=5) hOptMsg.stateCheck(2);
 		} catch (IOException e) {
-			RelayCtrlActivity.showMessage(mct.getString(R.string.msg4)); 
+//			RelayCtrlActivity.showMessage(mct.getString(R.string.msg4)); 
 		}
 	}
 }

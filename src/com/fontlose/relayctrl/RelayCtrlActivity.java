@@ -1,264 +1,267 @@
 package com.fontlose.relayctrl;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
-import android.text.Html;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
+import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 	
 public class RelayCtrlActivity extends Activity {
-	AlertDialog aDailog;
-	DataProcess dataProcess;
-	UiProcess   uiProcess  ;
-    private static Toast MsgToast;	
-    QMainMenu mainDialog;
     
+	private TextView showData;
+	private Button LinkESP;
+	
+	//路由器连接
+	private EditText APssid;
+	private EditText APpwd;
+	private Button APConnectButton;
+	
+	//连接P2P云服务
+	private EditText P2Paddress;
+	private EditText P2Pport;
+	private Button P2PConnectButton;
+	
+	//
+	private Button ST3;
+	private Button ToP2P;
+	
+	
+	private Button goButton;
+	private Button leftButton;
+	private Button rightButton;
+	private Button backButton;
+	
+	
+	private Socket socket;
+	private static PrintWriter printWriter;
+	
+	public Handler mHandler= null;
+	
+	public static String P2P_IP = "192.168.0.115";
+	public static String P2P_PORT = "8090";
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        MsgToast=Toast.makeText(this, "", Toast.LENGTH_SHORT);
         
-        dataProcess=new DataProcess(hMsg,this);
-        
-        uiProcess  =new UiProcess((LinearLayout)findViewById(R.id.mainLay),this,hMsg,dataProcess);
-        createDialog();
-        mainDialog=new QMainMenu(this); 
-        mainDialog.setOnItemClickListener(new onMenuItemClick());
-       // uiProcess.createConfigWindow=uiProcess.createConfigWindow(); 
-    }
-    
-    
-    /**
-     *消息处理用来处理   button 的信息  
-     */
-	HandleMsg hMsg=new HandleMsg(){
-		@Override
-		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
-			super.handleMessage(msg);
+        this.showData = (TextView) findViewById(R.id.showData);
+        this.mHandler =new Handler(){  
+	        public void handleMessage(Message msg) {  
+	        	int what = msg.what;
+	        	Bundle bundle = msg.getData();
+	        	String val = (String) bundle.get("key");
+	        	Toast.makeText(RelayCtrlActivity.this, val, Toast.LENGTH_LONG).show();
+	        	showData.setText(val);
+	        }     
+	    }; 
+
+        /**
+         * 连接ap与消息显示
+         * */
+	    this.LinkESP = (Button) findViewById(R.id.LinkESP); //连接ESP8266服务
+        this.LinkESP.setOnClickListener(new OnClickListener() {
 			
-			if(dataProcess==null) return; 
-			 
-			
-			if(msg.what==dataProcess.RELAYOPT)
-			{
-				dataProcess.sendrelayCmd(msg.arg1,msg.arg2,"");
-				
-			}
-			else if(msg.what==dataProcess.RELAYCHK)
-			{
-				if(ckeck)
-				{
-					dataProcess.sendrelayCmd(5,0,"");
-					this.sendEmptyMessageDelayed(dataProcess.RELAYCHK, 2000);
-				}
-			} 
-			else if(msg.what==dataProcess.CLOSETCP)
-			{
-				uiProcess.stopConn();
-			} 	
-			else if(msg.what==dataProcess.RELAYSTATE)
-			{
-				uiProcess.setRelayState(msg.arg1); 
-			} 				
-			else if(msg.what==dataProcess.APPQUIT)
-			{
-				aDailog.show();
-			} 	 
-			else if(msg.what==dataProcess.MAINMENU)
-			{
-				mainDialog.show();
-			} 	 
-		}		
-	};
-     
- 
-	public void createDialog()
-    {
-        aDailog=   new AlertDialog.Builder(RelayCtrlActivity.this)  
-        						.setTitle(RelayCtrlActivity.this.getString(R.string.tileQuit))  
-        						.setNegativeButton(RelayCtrlActivity.this.getString(R.string.lbCancle),  new DialogInterface.OnClickListener(){  
-        							public void onClick(DialogInterface dialoginterface, int i){   
-        								//uiProcess.soundPlay();
-        								aDailog.dismiss(); 
-        							}})
-        						.setPositiveButton(RelayCtrlActivity.this.getString(R.string.lbQuit),new DialogInterface.OnClickListener(){  
-        							public void onClick(DialogInterface dialoginterface, int i){   
-        								//uiProcess.soundPlay();
-        								uiProcess.saveIpPort();
-        								Intent home = new Intent(Intent.ACTION_MAIN);  
-        								home.addCategory(Intent.CATEGORY_HOME);  
-        								RelayCtrlActivity.this.startActivity(home);  
-        								try {
-        									Thread.sleep(800);
-        								} catch (InterruptedException e) {
-        									e.printStackTrace();
-        								}	
-        								
-        								
-        								
-        								System.exit(0);
-               	   
-        							}})
-        						 .create() ;  
-
-
-		 aDailog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-			@Override
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				// TODO Auto-generated method stub
-				if((event.ACTION_DOWN==event.getAction())&&(event.getRepeatCount()==0))
-				{
-					if(keyCode==event.KEYCODE_BACK) 
-					{	 
-		 				Intent home = new Intent(Intent.ACTION_MAIN);  
-						home.addCategory(Intent.CATEGORY_HOME);  
-						RelayCtrlActivity.this.startActivity(home);  
-						/**/	try {
-							Thread.sleep(800);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}	
-						System.exit(0);
-					}
-					return true;
-				}	
-				return false;
-			}
-		});
-    }
- 
-	class onMenuItemClick implements OnItemClickListener
-    {
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-			mainDialog.close();			
-			if(arg2==0)
-			{/*编辑服务*/
-				Toast.makeText(getApplicationContext(), "测试", 0).show();
-				 // uiProcess.createConfigWindow.showAtLocation((LinearLayout)findViewById(R.id.mainLay),Gravity.CENTER_VERTICAL, 0, 0); 
-			} 
-			else if(arg2==1)
-			{	
-				//AppConnect.getInstance(mct).showOffers(mct);
-				mainDialog.close(); 
-				createaboutWindow(); 
-			}
-			
-		}
-    }
-
-
-	/**
-     * 菜单点击事件
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.itset: 
-        	// uiProcess.createConfigWindow.showAtLocation((LinearLayout)findViewById(R.id.mainLay),Gravity.CENTER_VERTICAL, 0, 0); 
-            return true;
-        case R.id.itabout: 
-        	mainDialog.close(); 
-			createaboutWindow(); 
-           return true;
-         default:return true;
-       } 
-    }
-	
-
-	public static void showMessage(String msg)
-	{
-		MsgToast.setText(msg);
-		MsgToast.setDuration(MsgToast.LENGTH_SHORT);
-		MsgToast.show();
-	 }
-    
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		MenuInflater inflater = getMenuInflater();
-       inflater.inflate(R.menu.menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-  
-		if((event.ACTION_DOWN==event.getAction())&&(event.getRepeatCount()==0))
-		{
-			if(keyCode==event.KEYCODE_BACK) 
-			{	 
-				 hMsg.sendEmptyMessageDelayed(DataProcess.APPQUIT, 2); 
-			}
-			
-			else if(keyCode==event.KEYCODE_MENU) 
-			{	 
-				hMsg.sendEmptyMessageDelayed(DataProcess.MAINMENU, 2);
-				return true;
-			}
-			 
-			return true;
-		}	 
-		return super.onKeyDown(keyCode, event);
-	}
-	
-
-    protected QPopupWindow createaboutWindow(){ 
-		
-		View  view= (LinearLayout)findViewById(R.id.mainLay);
- 
-		LayoutInflater factory=LayoutInflater.from(RelayCtrlActivity.this);
-		
-		LinearLayout lout=(LinearLayout)factory.inflate(R.layout.about,null);
- 		QPopupWindow popupWindow = new QPopupWindow(lout,  LayoutParams.FILL_PARENT,  LayoutParams.WRAP_CONTENT,true);
- 
- 		TextView tv3=(TextView)lout.findViewById(R.id.textView3);
- 		tv3.setText(Html.fromHtml("<u>mailto:513283439@qq.com</u>"));
- 		tv3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Uri uri = Uri.parse("mailto:513283439@qq.com");  
-				Intent it = new Intent(Intent.ACTION_SENDTO, uri);
-				try {
-					RelayCtrlActivity.this.startActivity(it); 
-				} catch (Exception e) {
-					// TODO: handle exception
+				Toast.makeText(RelayCtrlActivity.this, "连接AP热点", Toast.LENGTH_LONG).show();
+				showData.setText("连接AP热点");
+					
+					new Thread(){
+						@Override
+						public void run() {
+							try {
+								Log.e("", "start connect.");
+								socket = new Socket("192.168.4.1",80);
+								Log.e("", "start connect success.");
+								OutputStream out = socket.getOutputStream();
+					            OutputStreamWriter osw  = new OutputStreamWriter(out,"UTF-8");
+					            printWriter = new PrintWriter(osw,true);
+				                
+				                DataInputStream reader =  new DataInputStream( socket.getInputStream()); 
+				                
+				                InputStream in = socket.getInputStream();
+				                InputStreamReader isr = new InputStreamReader(in,"UTF-8");
+				                BufferedReader br  = new BufferedReader(isr);
+				                 
+				                String message = null;
+				                while((message=br.readLine())!=null){
+				                	Log.e("receive", message);
+				                	sendMessage(message);
+				                }
+							} catch (Exception e) {
+								e.printStackTrace();
+								Log.e("Exception", e.toString());
+							}
+							
+						}
+					}.start();
+				 
+			}
+		});
+        
+        
+        /**
+         * nodemcu连接路由器
+         * */
+        this.APssid = (EditText) findViewById(R.id.APssid);
+        this.APpwd = (EditText) findViewById(R.id.APpwd);
+        this.APConnectButton = (Button) findViewById(R.id.APConnectButton);
+        this.APConnectButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(printWriter!=null){
+					String ssid = APssid.getText().toString();
+					String pwd = APpwd.getText().toString();
+					printWriter.println("AP="+ssid+"="+pwd+"=");
+				}
+				else{
+					sendMessage("未建立连接");
 				}
 			}
 		});
- 		 		
- 		popupWindow.setOutsideTouchable(true);		
-		popupWindow.setTouchable(true); 
-		popupWindow.setBackgroundDrawable(new BitmapDrawable());
-		popupWindow.setAnimationStyle(R.style.PopupAnimation);
-		popupWindow.update(); 
-		popupWindow.showAtLocation(view,Gravity.CENTER_VERTICAL, 0, 0);
+        
+       /**
+        * 将nodemcu连接上P2P云服务
+        * */
+       this.P2Paddress = (EditText) findViewById(R.id.P2Paddress);
+       this.P2Pport = (EditText) findViewById(R.id.P2Pport);
+       this.P2PConnectButton = (Button) findViewById(R.id.P2PConnectButton);
+       this.P2PConnectButton.setOnClickListener(new OnClickListener() {
 		
-		return popupWindow; 
+		@Override
+		public void onClick(View v) {
+			P2P_IP = P2Paddress.getText().toString();
+		    P2P_PORT = P2Pport.getText().toString();
+			if(printWriter!=null){
+				printWriter.println("P2P=nodemcu="+P2P_IP+"="+P2P_PORT+"=");
+			}
+			else{
+				sendMessage("未建立连接");
+			}
+		}
+	});
+     
+ 
+       this.ST3 = (Button) findViewById(R.id.ST3);
+       this.ST3.setOnClickListener(new OnClickListener() {
+   		
+   		@Override
+   		public void onClick(View v) {
+   			if(printWriter!=null){
+   				printWriter.println("ST3=");
+   			}
+   			else{
+   				sendMessage("未建立连接");
+   			}
+   		}
+   	});
+       this.ToP2P = (Button) findViewById(R.id.ToP2P);
+       this.ToP2P.setOnClickListener(new OnClickListener() {
+      		
+      		@Override
+      		public void onClick(View v) {
+      			P2P_IP = P2Paddress.getText().toString();
+    		    P2P_PORT = P2Pport.getText().toString();
+				Intent intent = new Intent();
+	            intent.setClass(RelayCtrlActivity.this, P2PActivity.class); 
+	            startActivity(intent);
+      		}
+      	});
+        
+        
+     
+        this.goButton = (Button) findViewById(R.id.goButton);
+        this.goButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				if(printWriter!=null){
+					Log.e("send", "ST0=222");
+					printWriter.println("ST0=222");
+				}else{
+					Log.e("send", "null");
+				}
+				
+			}
+		});
+        
+        
+        this.leftButton = (Button) findViewById(R.id.leftButton);
+        this.leftButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				if(printWriter!=null){
+					Log.e("send", "ST0=444");
+					printWriter.println("ST0=444");
+				}else{
+					Log.e("send", "null");
+				}
+				
+			}
+		});
+        
+        
+        this.rightButton = (Button) findViewById(R.id.rightButton);
+        this.rightButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				if(printWriter!=null){
+					Log.e("send", "ST0=666");
+					printWriter.println("ST0=666");
+				}else{
+					Log.e("send", "null");
+				}
+				
+			}
+		});
+        
+        this.backButton = (Button) findViewById(R.id.backButton);
+        this.backButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(printWriter!=null){
+					Log.e("send", "ST0=888");
+					printWriter.println("ST0=888");
+				}else{
+					Log.e("send", "null");
+				}
+			}
+		});
+        
+    }
+
+    
+    private void sendMessage(String message){
+		Message msg = new Message();
+		msg.what = 1;
+		Bundle data = new Bundle();
+		data.putString("key", message);
+		msg.setData(data);
+		mHandler.sendMessage(msg);
 	}
+	
      
 }
